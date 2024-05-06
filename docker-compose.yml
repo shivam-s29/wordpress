@@ -7,24 +7,27 @@ services:
       MYSQL_DATABASE: exampledb
       MYSQL_USER: exampleuser
       MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_ROOT_PASSWORD: examplerootpass  # Set a specific root password
     volumes:
-      - db:/var/lib/mysql
+      - db_data:/var/lib/mysql  # Rename the volume to be more descriptive
+    ports:
+      - "3306:3306"  # Expose MySQL port for host access
     expose:
-      - 3306
-      - 33060
+      - 33060  # Expose MySQL port for internal network access
+
   wordpress:
     image: wordpress
     restart: always
     ports:
-      - 8081:80
+      - "8081:80"  # Map host port 8081 to container port 80
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db:3306  # Specify the MySQL host with port
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
     volumes:
-      - wordpress:/var/www/html
+      - wordpress_data:/var/www/html  # Rename the volume to be more descriptive
+
 volumes:
-  db:
-  wordpress:
+  db_data:
+  wordpress_data:
