@@ -19,7 +19,7 @@ services:
     image: wordpress
     restart: always
     ports:
-      - "8081:80"  # Map host port 8081 to container port 80
+      - "80:80"  # Map host port 8081 to container port 80
     environment:
       WORDPRESS_DB_HOST: db:3306  # Specify the MySQL host with port
       WORDPRESS_DB_USER: exampleuser
